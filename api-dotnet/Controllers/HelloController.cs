@@ -7,9 +7,11 @@ namespace ApiDotNet.Controllers
     [Route("/api/hello")]
     public class HelloController
     {
+        private static int invokeCount = 0;
         [HttpGet]
         public string Get()
         {
+            invokeCount++;
             var osDescription = RuntimeInformation.OSDescription;
             var machineName = Environment.MachineName;
 
@@ -28,9 +30,11 @@ namespace ApiDotNet.Controllers
             else
                 tzInfo = TimeZoneInfo.FindSystemTimeZoneById(TimeZoneInfo.Local.Id);
 
-            var message = string.Format("Hello from api-dotnet. (42) running on: {0} {1}", 
+            var message = string.Format("Hello from api-dotnet. Running on [Host:{0}][OS:{1}][Tz:{2}][InvokeCount:{3}]",
+                machineName, 
                 osDescription,
-                tzInfo.ToString());
+                tzInfo.ToString(),
+                invokeCount);
 
             return message;
         }
